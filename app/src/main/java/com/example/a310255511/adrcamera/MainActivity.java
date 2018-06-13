@@ -2,13 +2,17 @@ package com.example.a310255511.adrcamera;
 
 import android.content.res.Configuration;
 import android.hardware.Camera;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.Window;
-import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.VideoView;
 
 import java.util.List;
 
@@ -19,11 +23,14 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
 
     private SurfaceView mSurfaceView = null;
     private SurfaceHolder mSurfaceHolder = null;
+    private VideoView mVideoView = null;
     private Camera mCamera = null;
-    private EditText mEditText = null;
+//    private EditText mEditText = null;
+    private TextView mTextView = null;
     private long time_start, time_now;
     private long frame_count = 0;
     private long fps = 0;
+//    private JustClass jstClass = null;
 
 
     private int mPreviewHeight, mPreviewWidth;
@@ -32,13 +39,33 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
-        initSurfaceView();
+//        initSurfaceView();
+        initVideoView();
+
+        JustClass.CallMyName();
+    }
+
+    public  void BtnsOnClick(View view) {
+        switch (view.getId()) {
+            case R.id.connBtn:
+                Toast.makeText(MainActivity.this, "Clicked conn", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.playBtn:
+                Toast.makeText(MainActivity.this, "Click play", Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+    private void initVideoView() {
+        String rtspUrl = "rtsp://192.168.1.254/xxx.mp4";
+        mVideoView = (VideoView) this.findViewById(R.id.videoView);
+        mVideoView.setVideoURI(Uri.parse(rtspUrl));
     }
 
     private void initSurfaceView () {
         mSurfaceView = (SurfaceView) this.findViewById(R.id.surfaceView);
-        mEditText = (EditText) this.findViewById(R.id.editText2);
+        mTextView = (TextView) this.findViewById(R.id.textView);
         mSurfaceHolder = mSurfaceView.getHolder();
         mSurfaceHolder.addCallback(this);
     }
@@ -115,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
             fps = frame_count /(((time_now - time_start)/1000)+1);
             Log.i(TAG, "frame_count : "+ Long.toString(frame_count)+", fps :"+ Long.toString(fps));
 
-            mEditText.setText(Long.toString(fps));
+            mTextView.setText(Long.toString(fps));
 
         }
     };
@@ -149,7 +176,6 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        // TODO Auto-generated method stub
         Log.i(TAG, "SurfaceHolder.Callback：Surface Destroyed");
         if(null != mCamera)
         {
