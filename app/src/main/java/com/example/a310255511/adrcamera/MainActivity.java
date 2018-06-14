@@ -2,7 +2,6 @@ package com.example.a310255511.adrcamera;
 
 import android.content.res.Configuration;
 import android.hardware.Camera;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -58,14 +57,19 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         }
     }
     private void initVideoView() {
-        String rtspUrl = "rtsp://192.168.1.254/xxx.mp4";
-        mVideoView = (VideoView) this.findViewById(R.id.videoView);
-        mVideoView.setVideoURI(Uri.parse(rtspUrl));
+//        String rtspUrl = "rtsp://192.168.1.254/xxx.mp4";
+        String rtspUrl = "http://techslides.com/demos/sample-videos/small.mp4";
+        mVideoView =  this.findViewById(R.id.videoView);
+//        mVideoView.setVideoURI(Uri.parse(rtspUrl));
+        mVideoView.setVideoPath(rtspUrl);
+        mVideoView.requestFocus();
+        mVideoView.start();
     }
+
 
     private void initSurfaceView () {
         mSurfaceView = (SurfaceView) this.findViewById(R.id.surfaceView);
-        mTextView = (TextView) this.findViewById(R.id.textView);
+        mTextView = this.findViewById(R.id.textView);
         mSurfaceHolder = mSurfaceView.getHolder();
         mSurfaceHolder.addCallback(this);
     }
