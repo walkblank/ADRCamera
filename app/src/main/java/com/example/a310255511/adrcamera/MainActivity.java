@@ -29,6 +29,9 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     private long time_start, time_now;
     private long frame_count = 0;
     private long fps = 0;
+//    String rtspUrl = "http://techslides.com/demos/sample-videos/small.mp4";
+    String rtspUrl = "rtsp://184.72.239.149/vod/mp4://BigBuckBunny_175k.mov";
+
 //    private JustClass jstClass = null;
 
 
@@ -53,17 +56,18 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                 break;
             case R.id.playBtn:
                 Toast.makeText(MainActivity.this, "Click play", Toast.LENGTH_SHORT).show();
+                mVideoView.setVideoPath(rtspUrl);
+//                mVideoView.gekt
+                mVideoView.requestFocus();
+                mVideoView.start();
                 break;
         }
     }
     private void initVideoView() {
-//        String rtspUrl = "rtsp://192.168.1.254/xxx.mp4";
-        String rtspUrl = "http://techslides.com/demos/sample-videos/small.mp4";
+
         mVideoView =  this.findViewById(R.id.videoView);
 //        mVideoView.setVideoURI(Uri.parse(rtspUrl));
-        mVideoView.setVideoPath(rtspUrl);
-        mVideoView.requestFocus();
-        mVideoView.start();
+
     }
 
 
